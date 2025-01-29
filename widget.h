@@ -17,6 +17,9 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+private:
+    void updateLightColor();
+
 private slots:
     void on_connectButton_clicked();
     void on_switchButton_clicked();

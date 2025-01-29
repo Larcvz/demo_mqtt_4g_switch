@@ -31,7 +31,14 @@
    <item>
     <widget class="QLabel" name="statusLabel">
      <property name="text">
-      <string>TextLabel</string>
+      <string>state</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="lightLabel">
+     <property name="text">
+      <string>light</string>
      </property>
     </widget>
    </item>

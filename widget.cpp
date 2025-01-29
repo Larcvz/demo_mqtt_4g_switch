@@ -11,6 +11,9 @@ Widget::Widget(QWidget *parent)
     mqttClient->setHostname("broker.emqx.io");
     mqttClient->setPort(1883);
 
+    ui->connectButton->setText("Connect");
+    ui->switchButton->setText("Switch");
+
     connect(mqttClient, &QMqttClient::connected, this, &Widget::on_mqttConnected);
     connect(mqttClient, &QMqttClient::disconnected, this, &Widget::on_mqttDisconnected);
     connect(mqttClient, &QMqttClient::messageReceived, this, &Widget::on_mqttMessageReceived);
@@ -39,6 +42,7 @@ void Widget::on_switchButton_clicked()
         mqttClient->publish(topic, message.toUtf8());
         ui->statusLabel->setText("Switch state: " + message);
     }
+    updateLightColor();
 }
 
 void Widget::on_mqttConnected()
@@ -59,5 +63,15 @@ void Widget::on_mqttMessageReceived(const QByteArray &message, const QMqttTopicN
         QString state = QString::fromUtf8(message);
         ui->statusLabel->setText("Switch state: " + state);
         switchState = (state == "ON");
+        updateLightColor();
+    }
+}
+
+void Widget::updateLightColor()
+{
+    if (switchState) {
+        ui->lightLabel->setStyleSheet("background-color: green; border-radius: 25px;");  // 开关打开，灯为绿色
+    } else {
+        ui->lightLabel->setStyleSheet("background-color: red; border-radius: 25px;");  // 开关关闭，灯为红色
     }
 }
